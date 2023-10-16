@@ -25,7 +25,7 @@ def compute_gradient(y, tx, w):
     return -tx.T.dot(y - tx.dot(w)) / len(y)
 
 
-def gradient_descent(y, tx, initial_w, max_iters, gamma):
+def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """The Gradient Descent (GD) algorithm.
 
     Args:
@@ -65,4 +65,4 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma):
             )
         )
 
-    return losses, ws
+    return ws[max_iters], losses[max_iters]
