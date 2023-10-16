@@ -26,7 +26,7 @@ def compute_stoch_gradient(y, tx, w):
     return -tx.T.dot(y - tx.dot(w)) / len(y)
 
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
+def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -67,4 +67,4 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
                 bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
             )
         )
-    return losses, ws
+    return ws[max_iters], losses[max_iters]

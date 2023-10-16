@@ -1,5 +1,7 @@
 import numpy as np
 
+from costs import compute_loss
+
 
 def ridge_regression(y, tx, lambda_):
     """implement ridge regression.
@@ -21,4 +23,6 @@ def ridge_regression(y, tx, lambda_):
     N = tx.shape[0]
     A = tx.T@tx + lambda_*2*N*np.identity(D)
     b = tx.T@y
-    return np.linalg.solve(A, b)
+    # return w and loss function
+
+    return np.linalg.solve(A, b), compute_loss(y, tx, np.linalg.solve(A, b))
