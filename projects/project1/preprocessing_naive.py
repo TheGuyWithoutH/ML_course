@@ -10,7 +10,7 @@ def preprocessing_data_sample_naive(x, means, stds):
     transformed_input = (transformed_input - means) / temp_std
 
     # Get top 50 variance features
-    top50 = np.argsort(np.square(stds))[-50:]
+    top50 = np.argsort(np.square(stds))[-200:]
 
     # Select the features to be used
     transformed_input = transformed_input[top50]
