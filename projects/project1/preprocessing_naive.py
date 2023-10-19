@@ -10,7 +10,7 @@ def preprocessing_data_sample_naive(x, means, stds):
     transformed_input = (transformed_input - means) / temp_std
 
     # Get top 50 variance features
-    top50 = np.argsort(np.square(stds))[0:50]
+    top50 = np.argsort(np.square(stds))[-50:]
 
     # Select the features to be used
     transformed_input = transformed_input[top50]
@@ -21,13 +21,15 @@ def preprocessing_data_sample_naive(x, means, stds):
 def preprocessing_dataset_naive(dataset):
     new_dataset = np.copy(dataset)
     means = np.nanmean(new_dataset, axis=0)
-    stds = np.nanstd(new_dataset, axis=0)
 
     # Find indices that you need to replace
     inds = np.where(np.isnan(new_dataset))
 
     # Place column means in the indices. Align the arrays using take
     new_dataset[inds] = np.take(means, inds[1])
+
+    means = np.mean(new_dataset, axis=0)
+    stds = np.std(new_dataset, axis=0)
 
     new_dataset = np.apply_along_axis(
         preprocessing_data_sample_naive, 1, new_dataset, means, stds)
