@@ -50,6 +50,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         # ***************************************************
         loss = compute_loss(y, tx, w)
         gradient = compute_gradient(y, tx, w)
+
         # ***************************************************
         # INSERT YOUR CODE HERE
         # TODO: update w by gradient
@@ -65,4 +66,4 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
             )
         )
 
-    return ws[max_iters], losses[max_iters]
+    return ws[max_iters - 1], losses[max_iters - 1]
