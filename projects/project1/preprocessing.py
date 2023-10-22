@@ -5,7 +5,22 @@ from helpers import standardize
 def default(x): return x
 def default_nan(x): return 0 if x == np.nan else x
 
+def replaceValueToInt(x, feature, value, replacement):
+    for i in range(10):
+        print(x[i,feature])
+        print(x[i,feature]==value)
+    return  np.where(x[:,feature]==value, replacement, x[:,feature])
 
+def remplaceNaN(dataset, replacement, feature):
+    new_dataset = np.copy(dataset)
+    zeros = np.zeros(new_dataset[:,feature].shape)
+
+   
+    inds = np.where(np.isnan(new_dataset[:,feature]))
+
+    new_dataset[inds][feature] = np.take(zeros, replacement)
+
+    return new_dataset
 rules = [
     default,  # Id
     default_nan,
