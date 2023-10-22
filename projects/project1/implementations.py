@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """The Gradient Descent (GD) algorithm.
 
@@ -139,11 +142,17 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
     w = initial_w
     # start the logistic regression
-    for iter in range(max_iters):
+    for n_iter in range(max_iters):
         # get loss and update w.
         loss = compute_loss(y, tx, w, 'log')
         grad = compute_gradient(y, tx, w, 'log')
         w = w - gamma*grad
+
+        print(
+            "GD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
+                bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
+            )
+        )
 
     return w, loss
 
@@ -164,11 +173,17 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """
     w = initial_w
     # start the logistic regression
-    for iter in range(max_iters):
+    for n_iter in range(max_iters):
         # get loss and update w.
-        loss = compute_loss(y, tx, w)
+        loss = compute_loss(y, tx, w, 'log')
         grad = compute_gradient(y, tx, w, 'log') + 2*lambda_*w
         w = w - gamma*grad
+
+        print(
+            "GD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
+                bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
+            )
+        )
 
     return w, loss
 
