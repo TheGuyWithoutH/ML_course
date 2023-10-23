@@ -80,8 +80,8 @@ rules = [
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 66
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 69
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 72
-    createCategory(1, 2, 3),  # 73
-    createCategory(1, 2, 3),  # 76
+    createCategory([1, 2, 3]),  # 73
+    createCategory([1, 2, 3]),  # 76
     None,  # 77 ???
     replaceValueToInt([77, 99, np.nan], [np.nan, np.nan, 0]),  # 78
     replaceValueToInt([88, 77, 99, np.nan], [0, np.nan, np.nan, 0]),  # 79
@@ -91,35 +91,37 @@ rules = [
     replaceValueToInt([1, 2, 3, 7, 9, np.nan], [
                       2, 1, 0, np.nan, np.nan, 0]),  # 97
 
-    None,  # 100
-    None,  # 103
-    None,  # 104
-    None,  # 107
-    None,  # 108
-    None,  # 109
-    None,  # 110
-    None,  # 127
-    None,  # 128
-    None,  # 136
-    None,  # 137
-    None,  # 142
-    None,  # 143
-    None,  # 144
-    None,  # 145
-    None,  # 146
-    None,  # 147
-    None,  # 148
-    None,  # 149
-    None,  # 150
-    None,  # 151
-    None,  # 154
-    None,  # 155
-    None,  # 156
-    None,  # 157
-    None,  # 158
-    None,  # 159
-    None,  # 160
-    None,  # 161
+    replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 100
+    replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 103
+    replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 104
+    replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 107
+    replaceValueToInt([2, 4, 3, 7, 9, np.nan], [1, 1, 0, 0, 0, 0]),  # 108
+    replaceValueToInt([2, 4, 3, 7, 9, np.nan], [1, 1, 0, 0, 0, 0]),  # 109
+    None,  # 110 ???
+    createCategory([1, 2, 3, 4, 5, 6]),  # 127
+    createCategory([1, 2, 3, 4, 5, 6]),  # 128
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 136
+    replaceValueToInt([1, 2, 3, 4, 5, 7, 9, np.nan], [
+                      4, 3, 2, 1, 0, np.nan, np.nan, 0]),  # 137
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 142
+    None,  # 143 ???
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 144
+    replaceValueToInt([97, 98, 99, np.nan], [
+                      10, np.nan, np.nan, 0]),  # 145 ???
+    replaceValueToInt([2, 7, np.nan], [0, 0, 0]),  # 146
+    replaceValueToInt([88, 98, np.nan], [0, 0, 0]),  # 147
+    replaceValueToInt([88, 98, np.nan], [0, 0, 0]),  # 148
+    replaceValueToInt([88, 98, 99, np.nan], [0, 0, 0, 0]),  # 149
+    replaceValueToInt([777, 888, 999, np.nan], [0, 0, 0, 0]),  # 150
+    createCategory([1, 2, 3, 4, 5, 8]),  # 151 ???
+    None,  # 154 ???
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 155
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 156
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 157
+    replaceValueToInt([2, 3, 7, 9, np.nan], [1, 0, 0, 0, 0]),  # 158
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 159
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 160
+    replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 161
     None,  # 162
     None,  # 173
     None,  # 190
