@@ -122,18 +122,19 @@ rules = [
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 159
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 160
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 161
-    None,  # 162
-    None,  # 173
-    None,  # 190
-    None,  # 192
-    None,  # 193
-    None,  # 198
-    None,  # 199
+    createCategory([1, 2, 3, 4]),  # 162
+    replaceValueToInt([7, 9, np.nan], [np.nan, np.nan, 0]),  # 173
+    createCategory([1, 2, 3, 4]),  # 190
+    createCategory([1, 2, 3, 4, 5]),  # 192
+    createCategory([1, 2, 3, 4, 5]),  # 193
+    createCategory([1, 2, 3, 4, 5]),  # 198
+    replaceValueToInt([1, 2, 3, 4, 7, 9, np.nan], [
+                      1, 1, 1, 0, 0, 0, 0]),  # 199
 
-    None,  # 207
-    None,  # 209
-    None,  # 213
-    None,  # 229
+    replaceValueToInt([88, 77, 99], [0, np.nan, np.nan]),  # 207 ???
+    replaceValueToInt([88, 77, 99], [0, np.nan, np.nan]),  # 209 ???
+    replaceValueToInt([88, 77, 99, np.nan], [0, np.nan, np.nan, 0]),  # 213
+    None,  # 229 c'est normal
     None,  # 230
     None,  # 231
     None,  # 232
