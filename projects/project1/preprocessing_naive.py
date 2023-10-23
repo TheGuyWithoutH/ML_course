@@ -9,11 +9,11 @@ def preprocessing_data_sample_naive(x, means, stds):
     temp_std[temp_std == 0] = 1
     transformed_input = (transformed_input - means) / temp_std
 
-    # Get top 50 variance features
-    top50 = np.argsort(np.square(stds))[-50:]
+    # # Get top 50 variance features
+    # top50 = np.argsort(np.square(stds))[-200:]
 
-    # Select the features to be used
-    transformed_input = transformed_input[top50]
+    # # Select the features to be used
+    # transformed_input = transformed_input[top50]
 
     return transformed_input
 
@@ -33,6 +33,7 @@ def preprocessing_dataset_naive(dataset):
 
     new_dataset = np.apply_along_axis(
         preprocessing_data_sample_naive, 1, new_dataset, means, stds)
+    print(new_dataset.shape)
     return new_dataset, means, stds
 
 
