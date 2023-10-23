@@ -143,87 +143,87 @@ rules = [
     None,  # 236
     None,  # 237
     None,  # 238
-    None,  # 240
-    None,  # 241
-    None,  # 242
-    None,  # 243
-    None,  # 244
-    None,  # 246
-    None,  # 247
-    None,  # 248
-    None,  # 249
-    None,  # 250
-    None,  # 251
-    None,  # 252
-    None,  # 253
-    None,  # 254
-    None,  # 255
-    None,  # 256
-    None,  # 257
-    None,  # 258
-    None,  # 259
-    None,  # 260
-    None,  # 261
-    None,  # 262
-    None,  # 263
-    None,  # 264
-    None,  # 265
-    None,  # 266
-    None,  # 267
-    None,  # 268
-    None,  # 269
-    None,  # 270
-    None,  # 271
-    None,  # 272
-    None,  # 273
-    None,  # 274
-    None,  # 275
-    None,  # 276
-    None,  # 277
-    None,  # 278
-    None,  # 279
-    None,  # 280
-    None,  # 281
-    None,  # 282
-    None,  # 283
-    None,  # 284
-    None,  # 285
-    None,  # 286
-    None,  # 287
-    None,  # 288
-    None,  # 289
-    None,  # 290
-    None,  # 291
-    None,  # 292
-    None,  # 293
-    None,  # 294
-    None,  # 295
-    None,  # 296
-    None,  # 297
-    None,  # 298
-    None,  # 299
+    createCategory([1,2,3,4,5,6,7]),  # 240 ???
+    replaceValueToInt([2,9],[0,0]),  # 241 ???
+    createCategory([1,2,3,4,5,6,7,8]),  # 242
+    createCategory([1,2]),  # 243 ???
+    createCategory([1,2,3,4,5]),  # 244 ???
+    replaceValueToInt([1,2,3,4,5,6,7,8,9,10,11,12,13,14],[21,27,32,37,42, 47, 52, 57, 62, 67, 72, 77, 90,np.nan]),  # 246 a enlever
+    None,  # 247 a enlever
+    None,  # 248 c'est normal
+    None,  # 249 a enlever
+    None,  # 250 a enlever
+    None,  # 251 c'est normal
+    replaceValueToInt([99999],[np.nan]),  # 252
+    None,  # 253 c'est normal
+    None,  # 254 a enlever
+    None,  # 255 a enlever
+    None,  # 256 a enlever
+    None,  # 257 a enlever
+    replaceValueToInt([9],[np.nan]),  # 258
+    replaceValueToInt([1,2,3,4],[3,2,1,0]),  # 259
+    None,  # 260 a enlever
+    None,  # 261 a enlever
+    None,  # 262 a enlever
+    None,  # 263 a enlever
+    None,  # 264 a enlever
+    None,  # 265 a enlever
+    None,  # 266 c'est normal
+    None,  # 267 c'est normal
+    None,  # 268 c'est normal
+    None,  # 269 c'est normal
+    None,  # 270 c'est normal
+    None,  # 271 c'est normal
+    None,  # 272 a enlever
+    None,  # 273 a enlever
+    None,  # 274 a enlever
+    None,  # 275 a enlever
+    None,  # 276 c'est normal
+    None,  # 277 c'est normal
+    None,  # 278 a enlever
+    None,  # 279 a enlever
+    None,  # 280 a enlever
+    None,  # 281 a enlever
+    None,  # 282 a enlever
+    None,  # 283 a enlever
+    None,  # 284 a enlever
+    None,  # 285 c'est normal
+    None,  # 286 c'est normal
+    replaceValueToInt([99900],[np.nan]),  # 287
+    replaceValueToInt([99900],[np.nan]),  # 288
+    None,  # 289 c'est normal
+    None,  # 290 c'est normal
+    None,  # 291 a enlever
+    None,  # 292 a enlever
+    replaceValueToInt([99900],[np.nan]),  # 293 
+    replaceValueToInt([99900],[np.nan]),  # 294
+    None,  # 295 a enlever
+    None,  # 296 a enlever
+    replaceValueToInt([99900],[np.nan]),  # 297
+    None,  # 298 a enlever
+    None,  # 299 a enlever
 
-    None,  # 300
-    None,  # 301
-    None,  # 302
-    None,  # 303
-    None,  # 304
-    None,  # 305
-    None,  # 306
-    None,  # 307
-    None,  # 308
-    None,  # 309
-    None,  # 310
-    None,  # 311
-    None,  # 312
-    None,  # 313
-    None,  # 314
-    None,  # 315
-    None,  # 316
-    None,  # 317
-    None,  # 318
-    None,  # 319
-    None,  # 320
+    None,  # 300 a enlever
+    None,  # 301 a enlever
+    None,  # 302 c'est normal
+    None,  # 303 a enlever
+    None,  # 304 c'est normal
+    replaceValueToInt([1,2,3,4,9],[3,2,1,0,np.nan]),  # 305 
+    None,  # 306 a enlever
+    None,  # 307 a enlever
+    None,  # 308 a enlever
+    None,  # 309 a enlever
+    replaceValueToInt([2,9],[0,0]),  # 310 ???
+    createCategory([1,2,3]),  # 311 ??
+    replaceValueToInt([2,9],[0,0]),  # 312 ???
+    createCategory([1,2,3]),  # 313
+    None,  # 314 a enlever
+    createCategory([1,2,3]),  # 315
+    None,  # 316 a enlerver
+    replaceValueToInt([2,9],[0,0]),  # 317
+    replaceValueToInt([2,9,np.nan],[0,0,0]),  # 318
+    replaceValueToInt([2,9,np.nan],[0,0,0]),  # 319
+    None,  # 320 a enlever
 ]
 
 
