@@ -2,12 +2,14 @@ import numpy as np
 from helpers import standardize
 
 
-def default_nan(x): return 0 if x == np.nan else x
+def default_nan(x): return 0 if np.isnan(x) else x
 
 
 def replaceValueToInt(values, replacements):
     def replace(x):
-        if x in values:
+        if np.isnan(x) and np.any(np.isnan(values)):
+            return replacements[np.where(np.isnan(values))[0][0]]
+        elif x in values:
             return replacements[values.index(x)]
         else:
             return x
@@ -25,6 +27,32 @@ def createCategory(categories):
     return category
 
 
+def countDays(x):
+    if x > 100 and x < 200:
+        return (x - 100) * 4.3
+    elif x > 200 and x < 300:
+        return x - 200
+    elif x == 888:
+        return 0
+    else:
+        return np.nan
+
+
+def countDays2(x):
+    if x > 100 and x < 200:
+        return (x - 100) * 30.2
+    elif x > 200 and x < 300:
+        return (x - 200) * 4.3
+    elif x > 300 and x < 400:
+        return x - 300
+    elif x > 400 and x < 500:
+        return (x - 400) / 12
+    elif x == 888:
+        return 0
+    else:
+        return np.nan
+
+
 def remplaceNaN(dataset, replacement, feature):
     new_dataset = np.copy(dataset)
     zeros = np.zeros(new_dataset[:, feature].shape)
@@ -37,7 +65,7 @@ def remplaceNaN(dataset, replacement, feature):
 
 
 rules = [
-    default_nan,  # 10
+    replaceValueToInt([2, np.nan], [0, 1]),  # 10
     default_nan,  # 11
     default_nan,  # 14
     default_nan,  # 15
@@ -74,19 +102,17 @@ rules = [
     createCategory([1, 2, 3, 4, 5, 6, 7, 8]),  # 58
     replaceValueToInt([88, 99], [0, np.nan]),  # 59
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 61
-    None,  # 62 ???
-    None,  # 63 ???
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 65
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 66
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 69
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 72
     createCategory([1, 2, 3]),  # 73
     createCategory([1, 2, 3]),  # 76
-    None,  # 77 ???
+    countDays,  # 77
     replaceValueToInt([77, 99, np.nan], [np.nan, np.nan, 0]),  # 78
     replaceValueToInt([88, 77, 99, np.nan], [0, np.nan, np.nan, 0]),  # 79
     replaceValueToInt([2, 7, 9], [0, np.nan, np.nan]),  # 87
-    None,  # 94 ???
+    countDays,  # 94
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 95
     replaceValueToInt([1, 2, 3, 7, 9, np.nan], [
                       2, 1, 0, np.nan, np.nan, 0]),  # 97
@@ -97,14 +123,14 @@ rules = [
     replaceValueToInt([2, 7, 9], [0, 0, 0]),  # 107
     replaceValueToInt([2, 4, 3, 7, 9, np.nan], [1, 1, 0, 0, 0, 0]),  # 108
     replaceValueToInt([2, 4, 3, 7, 9, np.nan], [1, 1, 0, 0, 0, 0]),  # 109
-    None,  # 110 ???
+    countDays2,  # 110
     createCategory([1, 2, 3, 4, 5, 6]),  # 127
     createCategory([1, 2, 3, 4, 5, 6]),  # 128
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 136
     replaceValueToInt([1, 2, 3, 4, 5, 7, 9, np.nan], [
                       4, 3, 2, 1, 0, np.nan, np.nan, 0]),  # 137
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 142
-    None,  # 143 ???
+    replaceValueToInt([777, 999], [np.nan, np.nan]),  # 143
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 144
     replaceValueToInt([97, 98, 99, np.nan], [
                       10, np.nan, np.nan, 0]),  # 145 ???
@@ -114,7 +140,8 @@ rules = [
     replaceValueToInt([88, 98, 99, np.nan], [0, 0, 0, 0]),  # 149
     replaceValueToInt([777, 888, 999, np.nan], [0, 0, 0, 0]),  # 150
     createCategory([1, 2, 3, 4, 5, 8]),  # 151 ???
-    None,  # 154 ???
+    replaceValueToInt([1, 2, 3, 4, 5, 6, 7, 8, 9, np.nan], [
+                      2, 10, 22.5, 40, 77.5, 100, np.nan, 0, np.nan, 0]),  # 154
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 155
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 156
     replaceValueToInt([2, 7, 9, np.nan], [0, 0, 0, 0]),  # 157
@@ -127,104 +154,55 @@ rules = [
     createCategory([1, 2, 3, 4]),  # 190
     createCategory([1, 2, 3, 4, 5]),  # 192
     createCategory([1, 2, 3, 4, 5]),  # 193
-    createCategory([1, 2, 3, 4, 5]),  # 198
+    createCategory([1, 2, 3, 4, 7]),  # 198
     replaceValueToInt([1, 2, 3, 4, 7, 9, np.nan], [
                       1, 1, 1, 0, 0, 0, 0]),  # 199
 
     replaceValueToInt([88, 77, 99], [0, np.nan, np.nan]),  # 207 ???
     replaceValueToInt([88, 77, 99], [0, np.nan, np.nan]),  # 209 ???
     replaceValueToInt([88, 77, 99, np.nan], [0, np.nan, np.nan, 0]),  # 213
-    None,  # 229 c'est normal
-    None,  # 230
-    None,  # 231
-    None,  # 232
-    None,  # 233
-    None,  # 234
-    None,  # 235
-    None,  # 236
-    None,  # 237
-    None,  # 238
-    createCategory([1,2,3,4,5,6,7]),  # 240 ???
-    replaceValueToInt([2,9],[0,0]),  # 241 ???
-    createCategory([1,2,3,4,5,6,7,8]),  # 242
-    createCategory([1,2]),  # 243 ???
-    createCategory([1,2,3,4,5]),  # 244 ???
-    replaceValueToInt([1,2,3,4,5,6,7,8,9,10,11,12,13,14],[21,27,32,37,42, 47, 52, 57, 62, 67, 72, 77, 90,np.nan]),  # 246 a enlever
-    None,  # 247 a enlever
+    # createCategory([1, 2, 3, 4, 5, 6, 7]),  # 240 ???
+    # replaceValueToInt([2, 9], [0, 0]),  # 241 ???
+    createCategory([1, 2, 3, 4, 5, 6, 7, 8]),  # 242
+    # createCategory([1, 2]),  # 243 ???
+    # createCategory([1, 2, 3, 4, 5]),  # 244 ???
+    # replaceValueToInt([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], [
+    #                   21, 27, 32, 37, 42, 47, 52, 57, 62, 67, 72, 77, 90, np.nan]),  # 246 a enlever
     None,  # 248 c'est normal
-    None,  # 249 a enlever
-    None,  # 250 a enlever
     None,  # 251 c'est normal
-    replaceValueToInt([99999],[np.nan]),  # 252
+    replaceValueToInt([99999], [np.nan]),  # 252
     None,  # 253 c'est normal
-    None,  # 254 a enlever
-    None,  # 255 a enlever
-    None,  # 256 a enlever
-    None,  # 257 a enlever
-    replaceValueToInt([9],[np.nan]),  # 258
-    replaceValueToInt([1,2,3,4],[3,2,1,0]),  # 259
-    None,  # 260 a enlever
-    None,  # 261 a enlever
-    None,  # 262 a enlever
-    None,  # 263 a enlever
-    None,  # 264 a enlever
-    None,  # 265 a enlever
+    replaceValueToInt([9], [np.nan]),  # 258
+    replaceValueToInt([1, 2, 3, 4], [3, 2, 1, 0]),  # 259
     None,  # 266 c'est normal
     None,  # 267 c'est normal
     None,  # 268 c'est normal
     None,  # 269 c'est normal
     None,  # 270 c'est normal
     None,  # 271 c'est normal
-    None,  # 272 a enlever
-    None,  # 273 a enlever
-    None,  # 274 a enlever
-    None,  # 275 a enlever
     None,  # 276 c'est normal
     None,  # 277 c'est normal
-    None,  # 278 a enlever
-    None,  # 279 a enlever
-    None,  # 280 a enlever
-    None,  # 281 a enlever
-    None,  # 282 a enlever
-    None,  # 283 a enlever
-    None,  # 284 a enlever
     None,  # 285 c'est normal
     None,  # 286 c'est normal
-    replaceValueToInt([99900],[np.nan]),  # 287
-    replaceValueToInt([99900],[np.nan]),  # 288
+    replaceValueToInt([99900], [np.nan]),  # 287
+    replaceValueToInt([99900], [np.nan]),  # 288
     None,  # 289 c'est normal
     None,  # 290 c'est normal
-    None,  # 291 a enlever
-    None,  # 292 a enlever
-    replaceValueToInt([99900],[np.nan]),  # 293 
-    replaceValueToInt([99900],[np.nan]),  # 294
-    None,  # 295 a enlever
-    None,  # 296 a enlever
-    replaceValueToInt([99900],[np.nan]),  # 297
-    None,  # 298 a enlever
-    None,  # 299 a enlever
+    replaceValueToInt([99900], [np.nan]),  # 293
+    replaceValueToInt([99900], [np.nan]),  # 294
+    replaceValueToInt([99900], [np.nan]),  # 297
 
-    None,  # 300 a enlever
-    None,  # 301 a enlever
     None,  # 302 c'est normal
-    None,  # 303 a enlever
     None,  # 304 c'est normal
-    replaceValueToInt([1,2,3,4,9],[3,2,1,0,np.nan]),  # 305 
-    None,  # 306 a enlever
-    None,  # 307 a enlever
-    None,  # 308 a enlever
-    None,  # 309 a enlever
-    replaceValueToInt([2,9],[0,0]),  # 310 ???
-    createCategory([1,2,3]),  # 311 ??
-    replaceValueToInt([2,9],[0,0]),  # 312 ???
-    createCategory([1,2,3]),  # 313
-    None,  # 314 a enlever
-    createCategory([1,2,3]),  # 315
-    None,  # 316 a enlerver
-    replaceValueToInt([2,9],[0,0]),  # 317
-    replaceValueToInt([2,9,np.nan],[0,0,0]),  # 318
-    replaceValueToInt([2,9,np.nan],[0,0,0]),  # 319
-    None,  # 320 a enlever
+    replaceValueToInt([1, 2, 3, 4, 9], [3, 2, 1, 0, np.nan]),  # 305
+    replaceValueToInt([2, 9], [0, 0]),  # 310 ???
+    createCategory([1, 2, 3]),  # 311 ??
+    replaceValueToInt([2, 9], [0, 0]),  # 312 ???
+    createCategory([1, 2, 3]),  # 313
+    createCategory([1, 2, 3]),  # 315
+    replaceValueToInt([2, 9], [0, 0]),  # 317
+    replaceValueToInt([2, 9, np.nan], [0, 0, 0]),  # 318
+    replaceValueToInt([2, 9, np.nan], [0, 0, 0]),  # 319
 ]
 
 
@@ -244,9 +222,11 @@ def preprocessing_data_sample(x):
 def preprocessing_dataset(dataset):
     new_dataset = np.copy(dataset)
 
+    print(len(rules))
+
     # Select the features to be used given a first manual analysis
-    new_dataset = np.delete(new_dataset, [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 18, 19,
-                                          23, 24, 49, 51, 52, 53, 54, 55, 56, 57, 60, 64, 67, 68, 70, 71,
+    new_dataset = np.delete(new_dataset, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 18, 19,
+                                          23, 24, 49, 51, 52, 53, 54, 55, 56, 57, 60, 62, 63, 64, 67, 68, 70, 71,
                                           74, 75, 80, 81, 82, 83, 84, 85, 86, 88, 89, 90, 91, 92, 93, 96,
                                           98, 99, 101, 102, 105, 106, 111, 112, 113, 114, 115, 116, 117,
                                           118, 119, 120, 121, 122, 123, 124, 125, 126, 129, 130, 131, 132,
@@ -255,7 +235,13 @@ def preprocessing_dataset(dataset):
                                           181, 182, 183, 184, 185, 186, 187, 188, 189, 191, 194, 195, 196,
                                           197, 200, 201, 202, 203, 204, 205, 206, 208, 210, 211, 212, 214,
                                           215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227,
-                                          228, 239, 245], axis=1)
+                                          228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240,
+                                          241, 243, 244, 245, 246, 247, 249, 250, 254, 255, 256, 257, 260,
+                                          261, 262, 263, 264, 265, 272, 273, 274, 275, 278, 279, 280, 281,
+                                          282, 283, 284, 291, 292, 295, 296, 298, 299, 300, 301, 303, 306,
+                                          307, 308, 309, 314, 316, 320], axis=1)
+
+    print(new_dataset.shape)
 
     new_dataset = np.apply_along_axis(
         preprocessing_data_sample, 1, new_dataset)
@@ -268,4 +254,47 @@ def preprocessing_dataset(dataset):
     new_dataset[inds] = np.take(means, inds[1])
 
     new_dataset, mean, std = standardize(new_dataset)
+
+    # # Feature polynomial expansion
+    # new_dataset = np.concatenate(
+    #     (new_dataset, np.power(new_dataset, 2)), axis=1)
+
     return new_dataset, mean, std
+
+
+def preprocessing_dataset_test(dataset, mean, std):
+    new_dataset = np.copy(dataset)
+
+    # Select the features to be used given a first manual analysis
+    new_dataset = np.delete(new_dataset, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 18, 19,
+                                          23, 24, 49, 51, 52, 53, 54, 55, 56, 57, 60, 62, 63, 64, 67, 68, 70, 71,
+                                          74, 75, 80, 81, 82, 83, 84, 85, 86, 88, 89, 90, 91, 92, 93, 96,
+                                          98, 99, 101, 102, 105, 106, 111, 112, 113, 114, 115, 116, 117,
+                                          118, 119, 120, 121, 122, 123, 124, 125, 126, 129, 130, 131, 132,
+                                          133, 134, 135, 138, 139, 140, 141, 152, 153, 163, 164, 165, 166,
+                                          167, 168, 169, 170, 171, 172, 174, 175, 176, 177, 178, 179, 180,
+                                          181, 182, 183, 184, 185, 186, 187, 188, 189, 191, 194, 195, 196,
+                                          197, 200, 201, 202, 203, 204, 205, 206, 208, 210, 211, 212, 214,
+                                          215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227,
+                                          228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240,
+                                          241, 243, 244, 245, 246, 247, 249, 250, 254, 255, 256, 257, 260,
+                                          261, 262, 263, 264, 265, 272, 273, 274, 275, 278, 279, 280, 281,
+                                          282, 283, 284, 291, 292, 295, 296, 298, 299, 300, 301, 303, 306,
+                                          307, 308, 309, 314, 316, 320], axis=1)
+
+    new_dataset = np.apply_along_axis(
+        preprocessing_data_sample, 1, new_dataset)
+
+    # Find indices that you need to replace
+    inds = np.where(np.isnan(new_dataset))
+    # Place column means in the indices. Align the arrays using take
+    new_dataset[inds] = np.take(mean, inds[1])
+
+    new_dataset = new_dataset - mean
+    new_dataset = new_dataset / std
+
+    # # Feature polynomial expansion
+    # new_dataset = np.concatenate(
+    #     (new_dataset, np.power(new_dataset, 2)), axis=1)
+
+    return new_dataset
