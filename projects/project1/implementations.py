@@ -276,3 +276,34 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         end_index = min((batch_num + 1) * batch_size, data_size)
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
+
+
+def build_poly(x, degree):
+    # """polynomial basis functions for input data x, for j=0 up to j=degree.
+
+    # Args:
+    # x: numpy array of shape (N,), N is the number of samples.
+    # degree: integer.
+
+    # Returns:
+    #    poly: numpy array of shape (N,d+1)
+
+    # >>> build_poly(np.array([0.0, 1.5]), 2)
+    # array([[1.  , 0.  , 0.  ],
+    #       [1.  , 1.5 , 2.25]])
+    # """
+    poly = np.zeros((len(x), degree+1))
+    for i in range(degree+1):
+        poly[:, i] = x**i
+    return poly
+
+
+def polynomial_regression(degree, y, x):
+    num_row = 2
+    num_col = 2
+    fig, axs = plt.subplots(num_row, num_col, figsize=(15, 15))
+    for ind, deg in enumerate(degree):
+        tx = build_poly(x, deg)
+        w, loss = least_squares(y, tx)
+        rmse = np.sqrt(2*loss)
+    return w, rmse
