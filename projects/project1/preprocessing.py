@@ -219,6 +219,21 @@ def preprocessing_data_sample(x):
     return transformed_input
 
 
+def polynomial_expansion(x, degree):
+    """polynomial expansion for input data x, for j=0 up to j=degree."""
+    if (degree == 1):
+        return x
+
+    transformed_input = np.array([])
+
+    for feature in range(len(x)):
+        for i in range(2, degree + 1):
+            transformed_input = np.concatenate(
+                transformed_input, x * feature ** (i - 1))
+
+    return transformed_input
+
+
 def preprocessing_dataset(dataset):
     new_dataset = np.copy(dataset)
 
@@ -253,11 +268,11 @@ def preprocessing_dataset(dataset):
     # Place column means in the indices. Align the arrays using take
     new_dataset[inds] = np.take(means, inds[1])
 
-    new_dataset, mean, std = standardize(new_dataset)
+    # Feature polynomial expansion
+    # new_dataset = np.apply_along_axis(
+    #     polynomial_expansion, 1, new_dataset, 2)
 
-    # # Feature polynomial expansion
-    # new_dataset = np.concatenate(
-    #     (new_dataset, np.power(new_dataset, 2)), axis=1)
+    new_dataset, mean, std = standardize(new_dataset)
 
     return new_dataset, mean, std
 
@@ -290,11 +305,11 @@ def preprocessing_dataset_test(dataset, mean, std):
     # Place column means in the indices. Align the arrays using take
     new_dataset[inds] = np.take(mean, inds[1])
 
+    # Feature polynomial expansion
+    # new_dataset = np.apply_along_axis(
+    #     polynomial_expansion, 1, new_dataset, 2)
+
     new_dataset = new_dataset - mean
     new_dataset = new_dataset / std
-
-    # # Feature polynomial expansion
-    # new_dataset = np.concatenate(
-    #     (new_dataset, np.power(new_dataset, 2)), axis=1)
 
     return new_dataset
