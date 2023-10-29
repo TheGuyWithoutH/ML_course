@@ -87,3 +87,20 @@ def gradient_descent_visualization(
     ax2.plot(pred_x, pred_y, "r")
 
     return fig
+
+
+def feature_visualization(data, labels):
+
+    # Visualize the features of the data and their correlation with the labels (scatter plots if labels are continuous, boxplots otherwise)
+    for i in range(data.shape[1]):
+        print("Feature " + str(i))
+        plt.figure()
+
+        data_i = data[:, i]
+
+        plt.boxplot([data_i[labels == -1], data_i[labels == 1]])
+        plt.title("Feature " + str(i))
+        plt.xlabel("Label")
+        plt.ylabel("Feature " + str(i))
+        plt.savefig("plots/Box - Feature " + str(i) + ".png")
+        plt.close()
