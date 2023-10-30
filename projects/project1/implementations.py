@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
@@ -22,8 +23,8 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         # INSERT YOUR CODE HERE
         # TODO: compute gradient and loss
         # ***************************************************
-        loss = compute_loss(y, tx, w, 'mse')
-        gradient = compute_gradient(y, tx, w, 'mse')
+        loss = compute_loss(y, tx, w, "mse")
+        gradient = compute_gradient(y, tx, w, "mse")
         # ***************************************************
         # INSERT YOUR CODE HERE
         # TODO: update w by gradient
@@ -45,7 +46,6 @@ def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
         y: shape=(N, )
         tx: shape=(N,2)
         initial_w: shape=(2, ). The initial guess (or the initialization) for the model parameters
-        batch_size: a scalar denoting the number of data points in a mini-batch used for computing the stochastic gradient
         max_iters: a scalar denoting the total number of iterations of SGD
         gamma: a scalar denoting the stepsize
 
@@ -63,9 +63,9 @@ def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
         # INSERT YOUR CODE HERE
         # TODO: implement stochastic gradient descent.
         # ***************************************************
-        loss = compute_loss(y, tx, w, 'mse')
+        loss = compute_loss(y, tx, w, "mse")
         batch_y, batch_tx = next(batches)
-        gradient = compute_gradient(batch_y, batch_tx, w, 'mse')
+        gradient = compute_gradient(batch_y, batch_tx, w, "mse")
         w = w - gamma * gradient
 
         print(
@@ -96,8 +96,8 @@ def least_squares(y, tx):
     # least squares: TODO
     # returns mse, and optimal weights
     # ***************************************************
-    w = np.linalg.solve(tx.T@tx, tx.T@y)
-    return w, compute_loss(y, tx, w, 'mse')
+    w = np.linalg.solve(tx.T @ tx, tx.T @ y)
+    return w, compute_loss(y, tx, w, "mse")
 
 
 def ridge_regression(y, tx, lambda_):
@@ -118,16 +118,16 @@ def ridge_regression(y, tx, lambda_):
     """
     D = tx.shape[1]
     N = tx.shape[0]
-    A = tx.T@tx + lambda_*2*N*np.identity(D)
-    b = tx.T@y
+    A = tx.T @ tx + lambda_ * 2 * N * np.identity(D)
+    b = tx.T @ y
     w = np.linalg.solve(A, b)
     # return w and loss function
 
-    return w, compute_loss(y, tx, w, 'mse')
+    return w, compute_loss(y, tx, w, "mse")
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """ Logistic regression using gradient descent or SGD
+    """Logistic regression using gradient descent or SGD
 
     Args:
         y: numpy array of shape (N,), N is the number of samples.
@@ -144,9 +144,9 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     # start the logistic regression
     for n_iter in range(max_iters):
         # get loss and update w.
-        loss = compute_loss(y, tx, w, 'log')
-        grad = compute_gradient(y, tx, w, 'log')
-        w = w - gamma*grad
+        loss = compute_loss(y, tx, w, "log")
+        grad = compute_gradient(y, tx, w, "log")
+        w = w - gamma * grad
 
         print(
             "GD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
@@ -158,7 +158,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    """ Regularized logistic regression using gradient descent or SGD
+    """Regularized logistic regression using gradient descent or SGD
 
     Args:
         y: numpy array of shape (N,), N is the number of samples.
@@ -175,9 +175,9 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     # start the logistic regression
     for n_iter in range(max_iters):
         # get loss and update w.
-        loss = compute_loss(y, tx, w, 'log')
-        grad = compute_gradient(y, tx, w, 'log') + 2*lambda_*w
-        w = w - gamma*grad
+        loss = compute_loss(y, tx, w, "log")
+        grad = compute_gradient(y, tx, w, "log") + 2 * lambda_ * w
+        w = w - gamma * grad
 
         print(
             "GD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
@@ -190,7 +190,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
 def calculate_mse(e):
     """Calculate the mse for vector e."""
-    return 1/2*np.mean(e**2)
+    return 1 / 2 * np.mean(e**2)
 
 
 def calculate_mae(e):
@@ -200,12 +200,12 @@ def calculate_mae(e):
 
 def calculate_logloss(y, y_pred, eps=1e-8):
     """Calculate the logloss for vector y and y_pred."""
-    return -np.mean(y*np.log(y_pred + eps) + (1-y)*np.log(1-y_pred + eps))
+    return -np.mean(y * np.log(y_pred + eps) + (1 - y) * np.log(1 - y_pred + eps))
 
 
 def sigmoid(t):
     """apply sigmoid function on t."""
-    return 1/(1 + np.exp(-t))
+    return 1 / (1 + np.exp(-t))
 
 
 def compute_loss(y, tx, w, loss_type):
@@ -278,32 +278,37 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
 
+# implement polynomial basis function expansion
 def build_poly(x, degree):
-    # """polynomial basis functions for input data x, for j=0 up to j=degree.
-
-    # Args:
-    # x: numpy array of shape (N,), N is the number of samples.
-    # degree: integer.
-
-    # Returns:
-    #    poly: numpy array of shape (N,d+1)
-
-    # >>> build_poly(np.array([0.0, 1.5]), 2)
-    # array([[1.  , 0.  , 0.  ],
-    #       [1.  , 1.5 , 2.25]])
-    # """
-    poly = np.zeros((len(x), degree+1))
-    for i in range(degree+1):
-        poly[:, i] = x**i
-    return poly
+    """polynomial basis functions for input data x, for j=0 up to j=degree.
+    Args:
+        x: shape=(N,D ) where N is the number of samples and D is the number of features
+        degree: scalar
+    Returns:
+        shape=(N, degree+1)
+    """
+    N = x.shape[0]
+    D = x.shape[1]
+    X = np.ones((N, degree + 1))
+    for i in range(1, degree + 1):
+        X[:, i] = x[:, 0] ** i
+    return X
 
 
-def polynomial_regression(degree, y, x):
-    num_row = 2
-    num_col = 2
-    fig, axs = plt.subplots(num_row, num_col, figsize=(15, 15))
-    for ind, deg in enumerate(degree):
-        tx = build_poly(x, deg)
-        w, loss = least_squares(y, tx)
-        rmse = np.sqrt(2*loss)
+# implement polynomial regression
+
+
+def poly_regression(degree, y, tx):
+    """polynomial regression using normal equations.
+    Args:
+        y: shape=(N, )
+        tx: shape=(N, )
+        degree: scalar
+    Returns:
+        w: shape=(degree+1, )
+        loss: scalar
+    """
+    X = build_poly(tx, degree)
+    w, loss = least_squares(y, X)
+    rmse = np.sqrt(2 * loss)
     return w, rmse
