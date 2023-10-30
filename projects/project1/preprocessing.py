@@ -226,10 +226,8 @@ def polynomial_expansion(x, degree):
 
     transformed_input = np.array([])
 
-    for feature in range(len(x)):
-        for i in range(2, degree + 1):
-            transformed_input = np.concatenate(
-                transformed_input, x * feature ** (i - 1))
+    for i in range(2, degree + 1):
+        transformed_input = np.append(transformed_input, np.power(x, i))
 
     return transformed_input
 
@@ -261,6 +259,12 @@ def preprocessing_dataset(dataset):
     new_dataset = np.apply_along_axis(
         preprocessing_data_sample, 1, new_dataset)
 
+    # Select the features to be used given a first manual analysis
+    new_dataset = np.delete(new_dataset, [0, 1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 20, 23, 24, 25, 26, 27, 28, 31, 35, 36,
+                            37, 38, 39, 41, 48, 49, 50, 51, 52, 53, 56, 58]
+                            + [*range(63, 141)]
+                            + [142, 143, 144, 147, 148, 149, 150, 151, 152, 153, 154, 155, 157, 158, 161, 162, 163, 164, 165, 168, 169, 170, 171, 173, 175, 176, 177, 178], axis=1)
+
     # Replace all remaining NaN with mean
     means = np.nanmean(new_dataset, axis=0)
     # Find indices that you need to replace
@@ -270,7 +274,7 @@ def preprocessing_dataset(dataset):
 
     # Feature polynomial expansion
     # new_dataset = np.apply_along_axis(
-    #     polynomial_expansion, 1, new_dataset, 2)
+    #     polynomial_expansion, 1, new_dataset, 6)
 
     new_dataset, mean, std = standardize(new_dataset)
 
@@ -300,6 +304,12 @@ def preprocessing_dataset_test(dataset, mean, std):
     new_dataset = np.apply_along_axis(
         preprocessing_data_sample, 1, new_dataset)
 
+    # Select the features to be used given a first manual analysis
+    new_dataset = np.delete(new_dataset, [0, 1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 20, 23, 24, 25, 26, 27, 28, 31, 35, 36,
+                            37, 38, 39, 41, 48, 49, 50, 51, 52, 53, 56, 58]
+                            + [*range(63, 141)]
+                            + [142, 143, 144, 147, 148, 149, 150, 151, 152, 153, 154, 155, 157, 158, 161, 162, 163, 164, 165, 168, 169, 170, 171, 173, 175, 176, 177, 178], axis=1)
+
     # Find indices that you need to replace
     inds = np.where(np.isnan(new_dataset))
     # Place column means in the indices. Align the arrays using take
@@ -307,7 +317,7 @@ def preprocessing_dataset_test(dataset, mean, std):
 
     # Feature polynomial expansion
     # new_dataset = np.apply_along_axis(
-    #     polynomial_expansion, 1, new_dataset, 2)
+    #     polynomial_expansion, 1, new_dataset, 6)
 
     new_dataset = new_dataset - mean
     new_dataset = new_dataset / std
